@@ -100,7 +100,7 @@
 			document.getElementById("icon-show-and").style.display = 'block'
 		}
 	} else {
-		var codeParams = url.substr(url.indexOf("/s/") +3,url.length);
+		//var codeParams = url.substr(url.indexOf("/s/") +3,url.length);
 		console.log(urlParmStr)
 		
 		// 不是微信客户端，直接可以访问链接
@@ -110,7 +110,12 @@
 		// }
 		// // 在这里跳
 		// location.href = urlParmStr;
-		location.href = 'https://www.baidu.com';
+		if(urlParmStr == url){
+			urlParmStr = "https://www.baidu.com";
+		}else{
+			location.href = urlParmStr;
+		}
+		
 		/**
 		$.post("/test.php",{
 			code: codeParams
