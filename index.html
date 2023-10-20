@@ -1,42 +1,136 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0,viewport-fit=cover">
-	<title>中转</title>
+	<meta charset="UTF-8">
+	<title>请使用浏览器打开</title>
+	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+	<meta content="yes" name="apple-mobile-web-app-capable" />
+	<meta content="black" name="apple-mobile-web-app-status-bar-style" />
+	<meta name="format-detection" content="telephone=no" />
+	<meta content="false" name="twcClient" id="twcClient" />
+	<meta name="aplus-touch" content="1" />
+	<style>
+		body,
+		html {
+			width: 100%;
+			height: 100%
+		}
+
+		* {
+			margin: 0;
+			padding: 0
+		}
+
+		body {
+			background-color: #F0F0F0
+		}
+
+		.top-bar-guidance {
+			width: 100%;
+		}
+
+		.top-bar-guidance .icon-safari {
+			width: 100%
+		}
+		.icon-safari2{
+			width: 90%;
+			display: none;
+			margin: 0 auto;
+		}
+
+		.app-download-tip {
+			margin: 0 auto;
+			width: 200px;
+			text-align: center;
+			font-size: 15px;
+			color: #2466f4;
+		}
+
+		.app-download-tip .guidance-desc {
+			background-color: #fff;
+			padding: 5px
+		}
+
+		.app-download-btn {
+			display: block;
+			width: 214px;
+			height: 40px;
+			line-height: 40px;
+			margin: 18px auto 0 auto;
+			text-align: center;
+			font-size: 18px;
+			color: #2466f4;
+			border-radius: 20px;
+			border: .5px #2466f4 solid;
+			text-decoration: none
+		}
+	</style>
 </head>
+
 <body>
-<div id="tips" style="font-size:25px;text-align: center;line-height: 50px;"></div>
+	<div class="top-bar-guidance">
+		<img src="img/1697685723750.jpg" class="icon-safari" />
+		<img src="img/1697686765320.jpg" class="icon-safari2" id="icon-show-and"/>
+		<img src="img/1697688065358.jpg" class="icon-safari2"  id="icon-show-ios"/>
+	</div>
+	<a data-clipboard-target="#foo" class="app-download-btn" id="fz" onclick="fz()">点击复制网址</a>
+	<input id="foo" value="" style="position: fixed;left: -100vw;">
+	<script src="js/jquery.min.js"></script>
+	<script src="js/clipboard.min.js"></script>
+</body>
 <script>
 	var url = document.location.toString();
-	var urlParmStr = url.slice(url.indexOf('=')+1);
+	$('#foo').val(url);
+	var urlParmStr = url.slice(url.indexOf('=') + 1);
 	var ua = navigator.userAgent.toLowerCase();
+	console.log(ua)
 	var isQQ = ua.indexOf('qq') != -1;
 	var isWeixin = ua.indexOf('micromessenger') != -1;
 	var isAndroid = ua.indexOf('android') != -1;
 	var isIos = (ua.indexOf('iphone') != -1) || (ua.indexOf('ipad') != -1);
-
-	var notice_openBrowser = "<h2>请点击右上角，通过浏览器打开本页面。</h2><br />不得不看的内容，复制到浏览器打开吧"
-
+	
 	// 判断是不是在微信客户端打开
-	if(isWeixin || isQQ) {
+	if (isWeixin || isQQ) {
 		// 判断是在Android的微信客户端还是Ios的微信客户端
-		if (isAndroid) {
-			document.getElementById("tips").innerHTML=notice_openBrowser;
-		}else if (isIos) {
-			document.getElementById("tips").innerHTML=notice_openBrowser;
-		}else{
-			document.getElementById("tips").innerHTML=notice_openBrowser;
+		if (isIos) {
+			document.getElementById("icon-show-ios").style.display = 'block'
+			
+		} else {
+			document.getElementById("icon-show-and").style.display = 'block'
 		}
 	} else {
+		var codeParams = url.substr(url.indexOf("/s/") +3,url.length);
+		console.log(urlParmStr)
+		
 		// 不是微信客户端，直接可以访问链接
-		if (urlParmStr == url){
-			urlParmStr = "https://www.baidu.com";
-		}
-		console.log(urlParmStr);
-		location.href=urlParmStr;
+		// if (urlParmStr == url) {
+		// 	urlParmStr = "https://www.yiove.com";
+		// 	$("#fz").data("clipboard-text", urlParmStr)
+		// }
+		// // 在这里跳
+		// location.href = urlParmStr;
+		location.href = 'https://www.baidu.com';
+		/**
+		$.post("/test.php",{
+			code: codeParams
+		},
+		function(data,status){
+			urlParmStr = data
+			location.href = data;
+		});**/
+	}
+	
+	// new ClipboardJS('#fz');
+	
+	function fz() {
+		new ClipboardJS('#fz', {
+		    text: function() {
+		        return urlParmStr
+		    }
+		});
+		$('#fz').text('复制成功');
 	}
 </script>
-<script charset="UTF-8" id="LA_COLLECT" src="assets/js/js-sdk-pro.min.js"></script><script>LA.init({id:"K8YSQIj3WDtj9gG6",ck:"K8YSQIj3WDtj9gG6"})</script>
-</body>
+
 </html>
